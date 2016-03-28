@@ -18,18 +18,20 @@ namespace CasinoSimulator
     //
     class SlotMachineSimulator
     {
-        // INSTANCE VARIABLES
+        #region INSTANCE FIELDS
+
+        // VARIABLES
 
         // The numbers of credits left in the machine
-        private int credits;
+        private int _credits;
 
         // The three dials on the slot machine
-        private string dial1;
-        private string dial2;
-        private string dial3;
+        private string _dial1;
+        private string _dial2;
+        private string _dial3;
 
         // This instance variable is used for generating random numbers
-        private Random generator;
+        private Random _generator;
 
 
         // CONSTANTS
@@ -39,9 +41,9 @@ namespace CasinoSimulator
         // 30 % for showing "#"
         // 60 % for showing "@"
         //
-        private const int probSeven = 10;
-        private const int probSharp = 30;
-        private const int probAt = 60;
+        private const int ProbabilitySeven = 10;
+        private const int ProbabilitySharp = 30;
+        private const int ProbabilityAt = 60;
 
         // The winnings paid to the player for certain dial combinations
         // 7 7 7 pays 150
@@ -50,89 +52,182 @@ namespace CasinoSimulator
         // any two 7 pays 5
         // any two # pays 1
         //
-        private const int winningSeven3 = 150;
-        private const int winningSharp3 = 10;
-        private const int winningAt3 = 1;
-        private const int winningSeven2 = 5;
-        private const int winningSharp2 = 1;
-    
+        private const int PayoutFor3Sevens = 150;
+        private const int PayoutFor3Sharps = 10;
+        private const int PayoutFor3Ats = 1;
+        private const int PayoutFor2Sevens = 5;
+        private const int PayoutFor2Sharps = 1;
+        #endregion
 
-
-        // CONSTRUCTOR
-        //
+        #region CONSTRUCTOR
         public SlotMachineSimulator()
         {
-            generator = new Random();
+            _generator = new Random();
             Reset();
         }
- 
+        #endregion
 
-        // PUBLIC METHODS
-
+        #region PUBLIC METHODS
         // Sets the simulator back to its starting state
         public void Reset()
         {
-            credits = 0;
+            _credits = 0;
         }
 
         // Returns the number of credits left in the machine
         public int GetCredits()
         {
-            return credits;
+            return _credits;
         }
-    
+
         // Adds a number of credits to the machine
         public void AddCredits(int moreCredits)
         {
-            credits = credits + moreCredits;
+            _credits = _credits + moreCredits;
         }
 
         // Perform one spin on the machine
-        public void Spin()
+        public SlotMachineLog Spin(bool silentMode)
         {
-            // Inform the player how many credits are left before spinning
-            Console.WriteLine();
-            Console.WriteLine("Credits left : {0}, now spinning...", credits);
+            SlotMachineLog spinLog = new SlotMachineLog();
 
-            // One spin costs one credit
-            credits--;
-        
+            //Informs the player how many credits are left before spinning
+            if (silentMode)
+            {
+                spinLog.Save(GetMessageBeforeSpin());
+            }
+            else
+            {
+                PrintMessageBeforeSpin();
+            }
+
             // Spin the dials
-            dial1 = SpinDial();
-            dial2 = SpinDial();
-            dial3 = SpinDial();
-        
-            // Find the winnings, and update the credits left
-            int winnings = CalculateWinnings(dial1,dial2,dial3);
-            credits = credits + winnings;
+            SpinAllDials();
 
-            // Report the outcome of the spin to the player
-            Console.WriteLine("You got : {0} {1} {2}", dial1, dial2, dial3);
-            Console.WriteLine("You won {0} credit(s)", winnings);
-            Console.WriteLine("Credits left : {0}", credits);
+            //Prints outcome of the spin
+            if (silentMode)
+            {
+                foreach (string item in GetOutcomeOfSpin())
+                {
+                    spinLog.Save(item);
+                }
+            }
+            else
+            {
+                PrintOutcomeOfSpin();
+            }
+            return spinLog;
         }
+
+        
+
 
         // Print the complete winning table
         public void PrintWinningTable()
         {
             Console.WriteLine("----------- Winning table for slot machine --------------");
-            Console.WriteLine(" 7 7 7 pays      {0}", winningSeven3);
-            Console.WriteLine(" # # # pays      {0}", winningSharp3);
-            Console.WriteLine(" @ @ @ pays      {0}", winningAt3);
-            Console.WriteLine(" any two 7 pays  {0}", winningSeven2);
-            Console.WriteLine(" any two # pays  {0}", winningSharp2);
+            Console.WriteLine(" 7 7 7 pays      {0}", PayoutFor3Sevens);
+            Console.WriteLine(" # # # pays      {0}", PayoutFor3Sharps);
+            Console.WriteLine(" @ @ @ pays      {0}", PayoutFor3Ats);
+            Console.WriteLine(" any two 7 pays  {0}", PayoutFor2Sevens);
+            Console.WriteLine(" any two # pays  {0}", PayoutFor2Sharps);
             Console.WriteLine("---------------------------------------------------------");
             Console.WriteLine();
         }
+        #endregion
 
-
-        // PRIVATE METHODS
+        #region PRIVATE METHODS
 
         // Generate a "percentage", i.e. a number between 0 and 100 (100 not included)
         private int GeneratePercentage()
         {
-            int result = generator.Next(100);
+            int result = _generator.Next(100);
             return result;
+        }
+        //Informs the player how many credits are left before spinning
+        private void PrintMessageBeforeSpin()
+        {
+            // Inform the player how many credits are left before spinning
+            Console.WriteLine();
+            Console.WriteLine("Credits left : {0}, now spinning...", _credits);
+        }
+        private string GetMessageBeforeSpin()
+        {
+            string beforeMsg = "Credits left : " + _credits + ", now spinning...";
+            return beforeMsg;
+        }
+        // Spin the dials
+        private void SpinAllDials()
+        {
+            // One spin costs one credit
+            _credits--;
+
+            _dial1 = SpinDial();
+            _dial2 = SpinDial();
+            _dial3 = SpinDial();
+        }
+
+        //Prints outcome of the spin
+        private void PrintOutcomeOfSpin()
+        {
+            // Find the winnings, and update the credits left
+            int winnings = CalculateWinnings(_dial1, _dial2, _dial3);
+            _credits = _credits + winnings;
+
+            // Report the outcome of the spin to the player
+            Console.WriteLine("You got : {0} {1} {2}", _dial1, _dial2, _dial3);
+
+            StringBuilder winningsMsg = new StringBuilder("You won ");
+            winningsMsg.Append(winnings);
+            winningsMsg.Append(" credits");
+
+            if (winnings == 1)
+            {
+                Console.WriteLine(winningsMsg);
+            }
+            else if (winnings > 1)
+            {
+                Console.WriteLine(winningsMsg.Append(", congratulations!"));
+            }
+            else
+            {
+                Console.WriteLine("Sorry, you did not win anything");
+            }
+
+            Console.WriteLine("Credits left : {0}", _credits);
+        }
+        private List<string> GetOutcomeOfSpin()
+        {
+            List<string> log = new List<string>();
+
+            // Find the winnings, and update the credits left
+            int winnings = CalculateWinnings(_dial1, _dial2, _dial3);
+            _credits = _credits + winnings;
+
+            // Report the outcome of the spin to the player
+            log.Add("You got : " + _dial1 + " " + _dial2 + " " + _dial3);
+
+            StringBuilder winningsMsg = new StringBuilder("You won ");
+            winningsMsg.Append(winnings);
+            winningsMsg.Append(" credits");
+
+            if (winnings == 1)
+            {
+                log.Add(winningsMsg.ToString());
+            }
+            else if (winnings > 1)
+            {
+                log.Add(winningsMsg.Append(", congratulations!").ToString());
+            }
+            else
+            {
+                log.Add("Sorry, you did not win anything");
+            }
+
+            log.Add("Credits left : " + _credits);
+            log.Add("--------------------------------------");
+            
+            return log;
         }
 
         // Spin a dial, using the defined percentages
@@ -143,11 +238,11 @@ namespace CasinoSimulator
 
             // Given the random percentage, find out what the dial should show
             //
-            if (percentage < probSeven)
+            if (percentage < ProbabilitySeven)
             {
                 return "7";
             }
-            else if (percentage < (probSeven + probSharp))
+            else if (percentage < (ProbabilitySeven + ProbabilitySharp))
             {
                 return "#";
             }
@@ -160,25 +255,25 @@ namespace CasinoSimulator
         // Calculate the winnings corresponding to the given dial combination
         private int CalculateWinnings(string dial1, string dial2, string dial3)
         {
-            if ((dial1 == "7") && (dial2 == "7") && (dial3 == "7"))
+            if (CountSymbols("7", dial1, dial2, dial3) == 3)
             {
-                return winningSeven3;
+                return PayoutFor3Sevens;
             }
-            else if ((dial1 == "#") && (dial2 == "#") && (dial3 == "#"))
+            else if (CountSymbols("#", dial1, dial2, dial3) == 3)
             {
-                return winningSharp3;
+                return PayoutFor3Sharps;
             }
-            else if ((dial1 == "@") && (dial2 == "@") && (dial3 == "@"))
+            else if (CountSymbols("@", dial1, dial2, dial3) == 3)
             {
-                return winningAt3;
+                return PayoutFor3Ats;
             }
             else if (CountSymbols("7", dial1, dial2, dial3) == 2)
             {
-                return winningSeven2;
+                return PayoutFor2Sevens;
             }
             else if (CountSymbols("#", dial1, dial2, dial3) == 2)
             {
-                return winningSharp2;
+                return PayoutFor2Sharps;
             }
             else
             {
@@ -198,5 +293,6 @@ namespace CasinoSimulator
 
             return count;
         }
+        #endregion
     }
 }
