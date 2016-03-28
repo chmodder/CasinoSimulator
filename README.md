@@ -22,13 +22,13 @@ The program contains three classes: **Program**, **SlotMachineManager** and **Sl
 *  _**CalculateWinnings**_: Given the symbols on the three dials, this method calculates the winnings according to the winning table. Again, the specific winnings are defined by the constants in the class
 There are obviously more details in the classes, but you will explore them in the tasks.
 
-###Tasks
+### Tasks
 This section contains the tasks you should perform in relation to the program. The tasks get increasingly difficult, so you can probably not complete them all. The tasks fall into three categories:
 *  **Read and understand the program**. Here you are given some questions about the structure of the program. Answering them requires that you look inside the given classes, and see if you understand how the code works.
 *  **Modify the program**. Here you are supposed to make some fairly simple changes to the program. However, the changes do get increasingly difficult. It is very important to test the program after you make a change, even small changes. If you change many things at once, and the program suddenly does not work anymore, it can be very hard to figure out what exactly caused the problem.
 *  **Add new functionality to the program**. Here you are asked to change the program in a significant way, which will probably require that you add new code to the program, or change the existing code significantly. Again, be sure to test very often... Some of these tasks will definitely be quite difficult to solve.
  
-###Read and understand the program
+### Read and understand the program
 The **SlotMachineManager** class:
 1. How many instance fields does this class have?
 2. How many public methods does the class contain?
@@ -52,7 +52,7 @@ The **SlotMachineSimulator** class:
 instance field?
 6. Where in the class code is the number of credits left in the machine changed?
 
-###Modify the program
+### Modify the program
 The **SlotMachineManager** class:
 1. It is very easy to run out of credits quickly, when you only start with 10 credits. Modify the program to start with 25 credits instead.
 2. Many players forget to keep track of the number of credits left. Inside the while-loop in the _**RunSimulation**_ method, add code that prints a warning (like e.g. “WARNING! You have less than 10 credits left!”), if the number of credits gets below 10.
@@ -71,7 +71,7 @@ if-else statement has five if-statements. For the last two cases, we use the pri
 * _**PrintOutcomeOfSpin**_: Print the message that reports the outcome of the spin to the player
 Follow the reviewers idea: make the three new methods as described above, and call them from the **_Spin_** method.
 
-###Add new functionality to the program
+### Add new functionality to the program
 **NOTE**: Since this is meant to be the hardest part of the project, the level of detail is no longer so high. You will not be told in detail what to do and where to do it – instead, the new functions are described in more general terms, and it is up to you to work out the details. If you are in doubt about how to proceed with a task, you may need to study the given code more closely, to be sure you understand how it works.
 
 1. Instead of always starting with a fixed number of credits, it would be better to ask the player how many credits (s)he wants to play for. There is a method _**AskPlayerToEnterANumber**_ available in the **SlotMachineManager** class, which could be useful for doing this. Change to program to ask the player for the starting number of credits.
