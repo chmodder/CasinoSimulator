@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Casinosimulator by chmodder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Casinosimulator</h1>
+      <h2 class="project-tagline">Coming soon</h2>
+      <a href="https://github.com/chmodder/CasinoSimulator" class="btn">View on GitHub</a>
+      <a href="https://github.com/chmodder/CasinoSimulator/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/chmodder/CasinoSimulator/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h3>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h3>
+
+<p>A Slot Machine is probably known by almost everybody, but in any case, the basic operation of a Slot Machine is as follows:</p>
+
+<ul>
+<li> A Slot Machine contains three wheels, each containing a number of different symbols, like a star, the number 7, the word “BAR”, etc.</li>
+<li> For a certain small amount (e.g. 1 krone), the player is allowed to make the wheels “spin”. This is done by pulling a lever or pressing a button.</li>
+<li> The wheels spin for a while, and end up showing three symbols, one on each wheel</li>
+<li> Certain combinations of symbols now pay a prize to the player. The specific combinations and prizes vary from machine to machine, but in any case, the prize (maybe 10 kroner or even 100 kroner) is paid to the player. Often, the player will use the winnings to keep on playing...
+This is the basic operation of a Slot Machine. You can find Slot Machines in a casino, a bar, etc.. Almost all on-line casinos also offer various Slot Machines. These will obviously be software simulations.</li>
+</ul>
+
+<h3>
+<a id="the-provided-c-program" class="anchor" href="#the-provided-c-program" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The provided C# program</h3>
+
+<p>This project also concerns a software simulation of a Slot Machine. Fortunately, you are not supposed to write all of the software – a C# program containing a basic Slot Machine simulator has been prepared for you. You can download that C# program from the class website; it is called CasinoSimulator. You can find it in the row marked “C# Programming Project #1”, under Projects.
+The program is as mentioned somewhat larger and more complex than what we have seen in class so far. An overview of the program follows below. Note however that it is only an overview; understanding the details of the program is actually one of the tasks you have to do yourself!</p>
+
+<p>The program contains three classes: <strong>Program</strong>, <strong>SlotMachineManager</strong> and <strong>SlotMachineSimulator</strong>
+<strong>Program</strong>: This class does as usual only contain the <em><strong>Main</strong></em> method, which is the method that is executed when the program starts. It is quite simple, and essentially just creates a <strong>SlotMachineManager</strong> object and calls the method <em><strong>RunSimulation</strong></em> on that object.
+<strong>SlotMachineManager</strong>: This class is mainly responsible for getting the actual simulation up and running, and to communicate with the player, e.g. asking the player if (s)he wants to play again after a single game. The primary method in the class is <em><strong>RunSimulation</strong></em>, which starts the slot machine simulator, adds some credits to the simulator, and then lets the player play. There are some private helper methods in the class as well.
+<strong>SlotMachineSimulator</strong>: This class contains the actual slot machine simulation. It is a quite large class, with many instance fields, constants, public and private methods. The three central methods are:</p>
+
+<ul>
+<li> <em><strong>Spin</strong></em>: Perform a single spin of the machine. This means that all three dials spin. The winnings (if any) are calculated, and added to the credits in the machine</li>
+<li> <em><strong>SpinDial</strong></em>: Spins a single dial. The result is according to the probabilities for each of the symbols, as defined by the constants in the class</li>
+<li> <em><strong>CalculateWinnings</strong></em>: Given the symbols on the three dials, this method calculates the winnings according to the winning table. Again, the specific winnings are defined by the constants in the class
+There are obviously more details in the classes, but you will explore them in the tasks.</li>
+</ul>
+
+<h3>
+<a id="tasks" class="anchor" href="#tasks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tasks</h3>
+
+<p>This section contains the tasks you should perform in relation to the program. The tasks get increasingly difficult, so you can probably not complete them all. The tasks fall into three categories:</p>
+
+<ul>
+<li> <strong>Read and understand the program</strong>. Here you are given some questions about the structure of the program. Answering them requires that you look inside the given classes, and see if you understand how the code works.</li>
+<li> <strong>Modify the program</strong>. Here you are supposed to make some fairly simple changes to the program. However, the changes do get increasingly difficult. It is very important to test the program after you make a change, even small changes. If you change many things at once, and the program suddenly does not work anymore, it can be very hard to figure out what exactly caused the problem.</li>
+<li> <strong>Add new functionality to the program</strong>. Here you are asked to change the program in a significant way, which will probably require that you add new code to the program, or change the existing code significantly. Again, be sure to test very often... Some of these tasks will definitely be quite difficult to solve.</li>
+</ul>
+
+<h3>
+<a id="read-and-understand-the-program" class="anchor" href="#read-and-understand-the-program" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Read and understand the program</h3>
+
+<p>The <strong>SlotMachineManager</strong> class:
+1. How many instance fields does this class have?
+2. How many public methods does the class contain?
+3. How many private methods does the class contain?
+4. How many parameters does the method <em><strong>AskPlayerToPlayOrQuit</strong></em> take?
+5. How many parameters does the method <em><strong>AskPlayerToEnterANumber</strong></em> take?
+6. Which method in the class contains a repetition statement?
+7. What is the purpose of the repetition statement?
+8. Under what conditions can you exit from the repetition statement (Hint: read the comments)?
+9. Why is the local variable <em><strong>playAgain</strong></em> set to <strong>true</strong> just before the loop starts?
+10. Would it be possible to use a for-loop instead of a while-loop?
+11. In total, how many times does the method <em><strong>RunSimulation</strong></em> make methods calls on the <strong>SlotMachine-</strong>
+<strong>Simulator</strong> instance field?</p>
+
+<p>The <strong>SlotMachineSimulator</strong> class:
+1. How many instance fields that are NOT constants does this class contain?
+2. What is the purpose of the constants starting with <em><strong>prob</strong></em>...?
+3. What is the purpose of the constants starting with <em><strong>winning</strong></em>...?
+4. Do you think these constants have good names? Can you think of better names?
+5. When you create a new <strong>SlotMachineSimulator</strong> object, what is the initial value of the credits
+instance field?
+6. Where in the class code is the number of credits left in the machine changed?</p>
+
+<h3>
+<a id="modify-the-program" class="anchor" href="#modify-the-program" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modify the program</h3>
+
+<p>The <strong>SlotMachineManager</strong> class:
+1. It is very easy to run out of credits quickly, when you only start with 10 credits. Modify the program to start with 25 credits instead.
+2. Many players forget to keep track of the number of credits left. Inside the while-loop in the <em><strong>RunSimulation</strong></em> method, add code that prints a warning (like e.g. “WARNING! You have less than 10 credits left!”), if the number of credits gets below 10.
+3. The class contains a single instance field <em><strong>theSimulator</strong></em>, which is of the type <strong>SlotMachineSimulator</strong>. However, since the instance field is only used within the method <em><strong>RunSimulation</strong></em>, we can make it a local variable inside that method instead. Make this change: delete the instance field, and instead create a local variable of type <strong>SlotMachineSimulator</strong> inside the <em><strong>RunSimulation</strong></em> method. For con- venience, you can call the local variable for <strong><em>theSimulator</em></strong>, so you don’t have to change the rest of the code. Is the call <em><strong>theSimulator.Reset()</strong></em> now necessary?</p>
+
+<p>The <strong>SlotMachineSimulator</strong> class:
+1. The message that gets printed after a spin always report the winnings in the same way, like “<em>You won X credit(s)</em>”. This is a bit boring... Modify this, such that the winnings is reported like:</p>
+
+<ul>
+<li> When winning nothing: “<em>Sorry, you did not win anything</em>”</li>
+<li> When winning 1 credit: “<em>You won 1 credit</em>”</li>
+<li> When winning more than 1 credit: “<em>You won X credits, congratulations!</em>” (X should of course be the actual number of credits won).</li>
+<li>In the method <em><strong>CalculateWinnings</strong></em>, there are five cases that can produce a winning – that is why the
+if-else statement has five if-statements. For the last two cases, we use the private helper method <em><strong>CountSymbols</strong></em>, since it is easier than writing a logical expression in those cases. However, we could use that helper method in all cases. Change the code to use <em><strong>CountSymbols</strong></em> in all five cases, not just the last two (<em>Hint: The three first cases cover the situations where all three dials show the same symbol</em>)</li>
+<li>A code reviewer finds that the method <em><strong>Spin</strong></em> contains too many lines of code, which makes it hard to understand. The reviewer suggests to move some parts of the code into separate methods, which are then called by <em><strong>Spin</strong></em>. The reviewer suggests three new methods:</li>
+<li>
+<em><strong>PrintMessageBeforeSpin</strong></em>: Print the message that is printed before the dials spin</li>
+<li>
+<em><strong>SpinAllDials</strong></em>: Spin all three dials</li>
+<li>
+<em><strong>PrintOutcomeOfSpin</strong></em>: Print the message that reports the outcome of the spin to the player
+Follow the reviewers idea: make the three new methods as described above, and call them from the <strong><em>Spin</em></strong> method.</li>
+</ul>
+
+<h3>
+<a id="add-new-functionality-to-the-program" class="anchor" href="#add-new-functionality-to-the-program" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add new functionality to the program</h3>
+
+<p><strong>NOTE</strong>: Since this is meant to be the hardest part of the project, the level of detail is no longer so high. You will not be told in detail what to do and where to do it – instead, the new functions are described in more general terms, and it is up to you to work out the details. If you are in doubt about how to proceed with a task, you may need to study the given code more closely, to be sure you understand how it works.</p>
+
+<ol>
+<li>Instead of always starting with a fixed number of credits, it would be better to ask the player how many credits (s)he wants to play for. There is a method <em><strong>AskPlayerToEnterANumber</strong></em> available in the <strong>SlotMachineManager</strong> class, which could be useful for doing this. Change to program to ask the player for the starting number of credits.</li>
+<li>For testing purposes, it will be very useful to be able to run a simulation where many spins are done without any user interaction. Therefore, a method <em><strong>RunLongSimulation(int noOfCredits, int noOfSpins)</strong></em> is needed. A call like <em><strong>RunLongSimulation(1000,5000)</strong></em> will thus set the starting number of credits to 1000, and then perform 5000 spins. Add such a method to the <strong>SlotMachineManager</strong> class, and run some tests. Hopefully, the runs can give you an impression of how much the slot machine pays back in winnings.</li>
+<li>When you run a long simulation, it is somewhat irritating that the program prints messages for every spin. Update the <em><strong>RunLongSimulation</strong></em> method to include a parameter that specifies if the simulation should run in “silent mode” (no messages printed during the simulation), or “normal mode”. Of course it should be possible to see the end result of the long simulation (the number of credits left in the machine), even when running in “silent mode”.</li>
+<li>Add functionality to keep track of detailed statistics of how often each winning combination came out during a long simulation. The statistics should be displayed on the screen after a long simulation has been performed, like “The combination # # # came out 259 times out of 10000”</li>
+<li>If you are good at math, you can calculate that with the given probabilities and winnings, the slot machine will on average pay out about 96 % (try to run some very long – at least one million spins – simulations, and see if you get close to this number...). So in the long run, players lose about 4 %. In order to make the machine more spectacular, the producer decides to include a fourth symbol on the dials: a star (*). If the machine shows three stars, it will pay out 10000 (ten thousand) credits! However, the probability that a dial shows a star is only 2 %. Compared to the existing machine, the 2 % are “taken” from the probability for the “7”, such that the probability for a “7” is now only 8 %. Change the program to include the fourth symbol as specified above, and see if you can see any effect on the winnings (you might be surprised...).</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/chmodder/CasinoSimulator">Casinosimulator</a> is maintained by <a href="https://github.com/chmodder">chmodder</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
