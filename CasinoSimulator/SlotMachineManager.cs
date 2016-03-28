@@ -8,7 +8,7 @@ namespace CasinoSimulator
 {
     // This class manages a simulation of the slot machine.
     // Its main responsibility is to communicate with the player,
-    // and keep the game running as long as the player wants
+    // and keep the game running as long as the player wants.
     class SlotMachineManager
     {
         // Only one instance variable; a slot machine simulator
