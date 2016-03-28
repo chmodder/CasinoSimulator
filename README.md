@@ -10,7 +10,7 @@ A Slot Machine is probably known by almost everybody, but in any case, the basic
 This is the basic operation of a Slot Machine. You can find Slot Machines in a casino, a bar, etc.. Almost all on-line casinos also offer various Slot Machines. These will obviously be software simulations.
 
 ### The provided C# program
-This project also concerns a software simulation of a Slot Machine. Fortunately, you are not supposed to write all of the software – a C# program containing a basic Slot Machine simulator has been prepared for you. You can download that C# program from the class website; it is called CasinoSimulator. You can find it in the row marked “C# Programming Project #1”, under Projects.
+This project also concerns a software simulation of a Slot Machine. Fortunately, you are not supposed to write all of the software – a C# program containing a basic Slot Machine simulator has been prepared for you. It can be found in the branch _**defaultTemplate**_.
 The program is as mentioned somewhat larger and more complex than what we have seen in class so far. An overview of the program follows below. Note however that it is only an overview; understanding the details of the program is actually one of the tasks you have to do yourself!
  
 The program contains three classes: **Program**, **SlotMachineManager** and **SlotMachineSimulator**
