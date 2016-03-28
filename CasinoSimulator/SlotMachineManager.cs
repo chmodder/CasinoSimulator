@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace CasinoSimulator
@@ -11,11 +12,44 @@ namespace CasinoSimulator
     class SlotMachineManager
     {
         // Only one instance variable; a slot machine simulator
-        private SlotMachineSimulator theSimulator;
+        //private SlotMachineSimulator theSimulator;
 
         public SlotMachineManager()
         {
-            theSimulator = new SlotMachineSimulator();
+            //theSimulator = new SlotMachineSimulator();
+        }
+
+        #region methods
+
+        //Asks player if Silent mode (log mode) should be enabled
+        public bool AskIfSilentModeShouldBeEnabled()
+        {
+            // Ask the player if (s)he wants to enable silent mode.
+            // The only acceptable answer is to press either "y" or "n"
+            Console.Write("Enable Silent mode? (press y for Yes, n for No) : ");
+            ConsoleKeyInfo key = Console.ReadKey();
+            Console.WriteLine();
+
+            // keyStr now holds the players response
+            String keyStr = key.KeyChar.ToString();
+
+            if (keyStr == "y")
+            {
+                // Player pressed "y", so Silent mode is enabled
+                return true;
+            }
+            else if (keyStr == "n")
+            {
+                // Player pressed "n", so Normal mode is enabled
+                return false;
+            }
+            else
+            {
+                // Player entered something else than "y" or "n",
+                // so ask the user again...
+                Console.WriteLine("Please enter either y or n");
+                return AskIfSilentModeShouldBeEnabled();
+            }
         }
 
 
@@ -24,8 +58,12 @@ namespace CasinoSimulator
         // a new spin on the slot machine is done
         public void RunSimulation()
         {
+            bool silentMode = false;
+
+            SlotMachineSimulator theSimulator = new SlotMachineSimulator();
+
             // Reset the simulator, so we start from the initial state
-            theSimulator.Reset();
+            //theSimulator.Reset();
 
             Console.WriteLine("Slot Machine Simulator Starting...");
             Console.WriteLine();
@@ -33,32 +71,66 @@ namespace CasinoSimulator
             // Print the winning table, for the players convenience
             theSimulator.PrintWinningTable();
 
-            Console.WriteLine("You get 10 credits to play for...");
-            Console.WriteLine();
+            // User adds credits to play for
+            int credits = AskPlayerToEnterANumber("Enter credit amount");
+            theSimulator.AddCredits(credits);
 
-            // Add 10 credits to play for
-            theSimulator.AddCredits(10);
+            Console.WriteLine("You get {0} credits to play for...", credits);
+            Console.WriteLine();
 
             // The main loop: while the player still wants to play - and
             // has money left - a new spin is performed
-            bool playAgain = true;
-            while (playAgain && (theSimulator.GetCredits() > 0))
-            {
-                // Do another spin on the machine
-                theSimulator.Spin();
+            #region original code
+            //bool playAgain = true;
+            //while (playAgain && (theSimulator.GetCredits() > 0))
+            //{
+            //    // Do another spin on the machine
+            //    theSimulator.Spin();
 
-                if (theSimulator.GetCredits() > 0)
+            //    if (theSimulator.GetCredits() > 0)
+            //    {
+            //        // The player has money left, so ask the player
+            //        // if (s)he wants to play again
+            //        playAgain = AskPlayerToPlayOrQuit();
+            //    }
+            //    else
+            //    {
+            //        // Player has no money left, so the game must stop
+            //        Console.WriteLine("Sorry, you have no money left...");
+            //        Console.WriteLine();
+            //        playAgain = false;
+            //    }
+            //}
+            #endregion
+            //Test if 'while' loop can be converted to 'for' loop
+            int playAgain = 1;
+            for (int i = playAgain; i > 0;)
+            {
+                if (theSimulator.GetCredits() <= 10)
                 {
-                    // The player has money left, so ask the player
-                    // if (s)he wants to play again
-                    playAgain = AskPlayerToPlayOrQuit();
+                    string lowCreditWarning = "WARNING! You have less than 10 credits left!";
+                    Console.WriteLine(lowCreditWarning);
+                }
+
+                if (i == 1 && (theSimulator.GetCredits() > 0))
+                {
+                    // Do another spin on the machine
+                    theSimulator.Spin(silentMode);
+
+                    if (theSimulator.GetCredits() > 0)
+                    {
+                        // The player has money left, so ask the player
+                        // if (s)he wants to play again
+
+                        i = AskPlayerToPlayOrQuit() ? 1 : 0;
+                    }
                 }
                 else
                 {
                     // Player has no money left, so the game must stop
                     Console.WriteLine("Sorry, you have no money left...");
                     Console.WriteLine();
-                    playAgain = false;
+                    i = 0;
                 }
             }
 
@@ -123,5 +195,142 @@ namespace CasinoSimulator
 
             return number;
         }
+        #endregion
+
+        public void RunLongSimulation(int noOfCredits, int noOfSpins, bool silentMode)
+        {
+            SlotMachineSimulator theSimulator = new SlotMachineSimulator();
+
+            //Creates gamelog
+            SlotMachineLog gameLog = new SlotMachineLog();
+
+            string startMsg = "Slot Machine Simulator Starting...";
+            Console.WriteLine(startMsg);
+            Console.WriteLine();
+
+            // Print the winning table, for the players convenience
+            theSimulator.PrintWinningTable();
+
+            // User adds credits to play for
+            int credits = noOfCredits;
+            theSimulator.AddCredits(credits);
+
+            Console.WriteLine("You get {0} credits to play for...", credits);
+            Console.WriteLine();
+
+            // The main loop: while the player still wants to play - and
+            // has money left - a new spin is performed
+            #region original code
+            //bool playAgain = true;
+            //while (playAgain && (theSimulator.GetCredits() > 0))
+            //{
+            //    // Do another spin on the machine
+            //    theSimulator.Spin();
+
+            //    if (theSimulator.GetCredits() > 0)
+            //    {
+            //        // The player has money left, so ask the player
+            //        // if (s)he wants to play again
+            //        playAgain = AskPlayerToPlayOrQuit();
+            //    }
+            //    else
+            //    {
+            //        // Player has no money left, so the game must stop
+            //        Console.WriteLine("Sorry, you have no money left...");
+            //        Console.WriteLine();
+            //        playAgain = false;
+            //    }
+            //}
+            #endregion
+            //Test if 'while' loop can be converted to 'for' loop
+            int playAgain = noOfSpins;
+            int spinCounter = 1;
+            for (int i = playAgain; i > 0;)
+            {
+                //Warns user if credit is lower than 10 and not 0
+                if (theSimulator.GetCredits() <= 10 && theSimulator.GetCredits() != 0)
+                {
+                    string lowCreditWarning = "WARNING! You have less than 10 credits left!";
+                    if (silentMode)
+                    {
+                        gameLog.Save(lowCreditWarning);
+                    }
+                    else
+                    {
+                        Console.WriteLine(lowCreditWarning);
+                    }
+                }
+
+                //If player has credit left
+                if (theSimulator.GetCredits() > 0)
+                {
+                    // Do another spin on the machine
+                    i--;
+                    gameLog.Save("Spincount: " + spinCounter);
+
+                    SlotMachineLog spinLog = theSimulator.Spin(silentMode);
+
+                    List<string> spinLogList = spinLog.GetAllLogItems();
+                    spinCounter++;
+
+                    foreach (string s in spinLogList)
+                    {
+                        gameLog.Save(s);
+                    }
+
+                    if (i == 0 && theSimulator.GetCredits() > 0)
+                    {
+                        Console.Write("Autospin stopped, ");
+                        i = AskPlayerToPlayOrQuit() ? AskPlayerToEnterANumber("Enter autospin number") : 0;
+                    }
+                }
+                else
+                {
+                    // Player has no money left, so the game must stop
+                    Console.WriteLine("Sorry, you have no money left...");
+                    Console.WriteLine();
+                    i = 0;
+
+                    if (AskPlayerYesOrNoQuestion("Print Gamelog"))
+                    {
+                        gameLog.PrintEntireGameLog();
+                    }
+                }
+            }
+
+            Console.WriteLine("Slot Machine Simulator Ending...");
+            Console.WriteLine();
+        }
+
+        private bool AskPlayerYesOrNoQuestion(string question)
+        {
+            // Ask the player a question (input parameter is string).
+            // The only acceptable answer is to press either "y" or "n"
+            Console.Write("{0}? (press y for Yes, n for No) : ", question);
+            ConsoleKeyInfo key = Console.ReadKey();
+            Console.WriteLine();
+
+            // keyStr now holds the players response
+            String keyStr = key.KeyChar.ToString();
+
+            if (keyStr == "y")
+            {
+                // Player pressed "y"
+                return true;
+            }
+            else if (keyStr == "n")
+            {
+                // Player pressed "n"
+                return false;
+            }
+            else
+            {
+                // Player entered something else than "y" or "n",
+                // so ask the user again...
+                Console.WriteLine("Please enter either y or n");
+                return AskPlayerYesOrNoQuestion(question);
+            }
+        }
     }
 }
+
